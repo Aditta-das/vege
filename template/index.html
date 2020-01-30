@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="products-catagories-area clearfix">
+    <div class="amado-pro-catagory clearfix">
+        {% for item in items %}
+        <!-- Single Catagory -->
+        <div class="single-products-catagory clearfix">
+            <a href="{% url 'details' item.id %}">
+                <img src="{{item.photo_main.url}}" alt="">
+                <!-- Hover Content -->
+                <div class="hover-content">
+                    <div class="line"></div>
+                    <p>From ${{item.price}}</p>
+                    <h4>{{item.title}}</h4>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+
+    if(localStorage.getItem('cart') == null){
+    var cart={};
+    }
+    else{
+    cart = JSON.parse(localStorage.getItem('cart'));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    }
+    $('.cart').click(function(){
+
+
+    var idstr = this.id.toString();
+    console.log(idstr);
+    if (cart[idstr] != undefined){
+    cart[idstr] = cart[idstr] + 1;
+    }
+    else
+    {
+    cart[idstr] = 1
+    }
+    console.log(cart);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    });
+
+
+</script>
+{% endblock %}
